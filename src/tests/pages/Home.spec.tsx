@@ -1,43 +1,36 @@
-import { render, screen } from '@testing-library/react'
-import { mocked } from 'ts-jest/utils'
 
+import {render, screen} from '@testing-library/react'
+import Home, { getStaticProps } from '../../pages'
 import { stripe } from '../../services/stripe'
-import Home, { getStaticProps } from '../../pages';
 
 jest.mock('next/router')
 jest.mock('next-auth/client', () => {
-  return {
-    useSession: () => [null, false]
-  }
+    return {
+        useSession(){
+            return [null, false]
+        }
+    }
 })
 jest.mock('../../services/stripe')
 
 describe('Home page', () => {
-  it('renders correctly', () => {
-    render(<Home product={{ priceId: 'fake-price-id', amount: 'R$10,00' }} />)
+    it('renders correctly', () => {
 
-    expect(screen.getByText("for R$10,00 month")).toBeInTheDocument()
-  });
+        render(<Home product={{priceId: 'fake price', amount: '$23,00'}}/>)
 
-  it('loads initial data', async () => {
-    const retriveStripePricesMocked = mocked(stripe.prices.retrieve)
+        expect(screen.getByText('for $23,00 month')).toBeInTheDocument()
+    })
 
-    retriveStripePricesMocked.mockResolvedValueOnce({
-      id: 'fake-price-id',
-      unit_amount: 1000,
-    } as any)
+    it('loads initial data', () => {
+        const retriveStripePricesMocked = jest.mocked(stripe.prices.retrieve)
 
-    const response = await getStaticProps({})
+        retriveStripePricesMocked.mockResolvedValueOnce({
+            id: 'fake-prioce-id', 
+            unit_amount: 1000,
+        } as any)
 
-    expect(response).toEqual(
-      expect.objectContaining({
-        props: {
-          product: {
-            priceId: 'fake-price-id',
-            amount: '$10.00'
-          }
-        }
-      })
-    )
-  });
+        const response = getStaticProps({})
+
+        console.log(response)
+    })
 })
