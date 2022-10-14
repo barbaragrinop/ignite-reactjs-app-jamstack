@@ -1,3 +1,4 @@
+
 import {render, screen} from '@testing-library/react'
 import { ActiveLink } from '.'
 
@@ -30,4 +31,3 @@ describe('Active link component', () => {
         expect(screen.getByText('Home')).toHaveClass('active')
     })
 })
-
