@@ -1,4 +1,3 @@
-
 import {render, screen} from '@testing-library/react'
 import Home, { getStaticProps } from '../../pages'
 import { stripe } from '../../services/stripe'
@@ -21,16 +20,16 @@ describe('Home page', () => {
         expect(screen.getByText('for $23,00 month')).toBeInTheDocument()
     })
 
-    it('loads initial data', () => {
-        const retriveStripePricesMocked = jest.mocked(stripe.prices.retrieve)
+    // it('loads initial data', () => {
+    //     const retriveStripePricesMocked = jest.mocked(stripe.prices.retrieve)
 
-        retriveStripePricesMocked.mockResolvedValueOnce({
-            id: 'fake-prioce-id', 
-            unit_amount: 1000,
-        } as any)
+    //     retriveStripePricesMocked.mockResolvedValueOnce({
+    //         id: 'fake-prioce-id', 
+    //         unit_amount: 1000,
+    //     } as any)
 
-        const response = getStaticProps({})
+    //     const response = getStaticProps({})
 
-        console.log(response)
-    })
+    //     console.log(response)
+    // })
 })
